@@ -48,11 +48,9 @@ export class Authentication {
     };
 
     this._publicClientApplication = new PublicClientApplication(msalConfig);
-
     _loginRequest = {
       scopes: window.loginScopes
     };
-
     _tokenRequest = {
       scopes: window.apiScopes,
       forceRefresh: false // Set this to "true" to skip a cached token and go to the server to get a new token
