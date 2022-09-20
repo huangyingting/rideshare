@@ -1,7 +1,7 @@
 resources:
   - repo: self
-queue:
-  name: ubuntu-latest
+pool:
+  vmImage: ubuntu-latest
   demands: npm
 
 steps:
