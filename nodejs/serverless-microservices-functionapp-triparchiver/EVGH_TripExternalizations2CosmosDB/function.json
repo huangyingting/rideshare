@@ -12,7 +12,7 @@
    "databaseName": "RideShare",
    "collectionName": "Archive",
    "createIfNotExists": false,
-   "connectionStringSetting": "DocDbConnectionStringKey"
+   "connectionStringSetting": "DocDbConnectionString"
   }
  ],
  "disabled": false,
