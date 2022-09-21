@@ -45,7 +45,6 @@ stages:
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
 
-
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
@@ -62,7 +61,7 @@ stages:
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy: RideshareCSTripArchiver'
             inputs:
-              azureSubscription: 'rideshare'
+              azureSubscription: rideshare
               appName: RideshareCSTripArchiver
               appType: functionApp
               package: '$(Pipeline.Workspace)/drop/NodeFunctionApp.zip'
