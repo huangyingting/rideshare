@@ -8,49 +8,62 @@ trigger:
     include:
     - nodejs/**
 
-pool:
-  vmImage: ubuntu-latest
-  demands: npm
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+      demands: npm
+    steps:
+    - task: Npm@1
+      displayName: 'npm install'
+      inputs:
+        workingDir: 'nodejs/serverless-microservices-functionapp-triparchiver'
+        verbose: false
+    - task: DeleteFiles@1
+      displayName: 'Delete node_modules'
+      inputs:
+        SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
+        Contents: 'node_modules'
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)/NodeFunctionApp'
+      inputs:
+        SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
 
-steps:
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: 'nodejs/serverless-microservices-functionapp-triparchiver'
-
-    verbose: false
-
-
-- task: DeleteFiles@1
-  displayName: 'Delete node_modules'
-  inputs:
-    SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
-
-    Contents: 'node_modules'
-
-
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)/NodeFunctionApp'
-  inputs:
-    SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
-
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
-
-
-- task: ArchiveFiles@1
-  displayName: 'FunctionApp Archive'
-  inputs:
-    rootFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
-
-    includeRootFolder: false
-
-    archiveFile: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
-
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
+    - task: ArchiveFiles@1
+      displayName: 'FunctionApp Archive'
+      inputs:
+        rootFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
+        includeRootFolder: false
+        archiveFile: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
 
 
-
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: $(environmentName)
+    pool:
+      vmImage: $(vmImageName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureFunctionApp@1
+            displayName: 'Azure Functions App Deploy: my-function-app-name'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+             appType: functionAppLinux 
+             appName: $(functionAppName)
+             package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
