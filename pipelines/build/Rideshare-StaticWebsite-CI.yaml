@@ -1,5 +1,12 @@
+name: $(BuildDefinitionName) - $(date:yyyyMMdd)$(rev:.r)
+
 trigger:
-  - main
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - web/serverless-microservices-web/**
 
 pool:
   vmImage: ubuntu-latest
