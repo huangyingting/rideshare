@@ -52,6 +52,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy
+    environment: RideShare
     pool:
       vmImage: ubuntu-latest
     strategy:
@@ -59,7 +60,7 @@ stages:
         deploy:
           steps:
           - task: AzureFunctionApp@1
-            displayName: 'Azure Functions App Deploy: RideshareCSTripArchiver'
+            displayName: 'Azure Functions App Deploy: RideshareCSTripArchiver'            
             inputs:
               azureSubscription: rideshare
               appName: RideshareCSTripArchiver
