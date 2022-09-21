@@ -1,5 +1,13 @@
-resources:
-- repo: self
+name: $(BuildDefinitionName) - $(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - nodejs/**
+
 pool:
   vmImage: ubuntu-latest
   demands: npm
