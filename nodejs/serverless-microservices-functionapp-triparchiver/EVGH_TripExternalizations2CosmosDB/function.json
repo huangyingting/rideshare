@@ -16,8 +16,6 @@
   }
  ],
  "disabled": false,
- "_originalEntryPoint": false,
- "_originalScriptFile": "index.js",
- "scriptFile": "../.funcpack/index.js",
+ "scriptFile": "index.js",
  "entryPoint": "EVGH_TripExternalizations2CosmosDB"
 }
