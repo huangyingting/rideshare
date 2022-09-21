@@ -54,7 +54,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
-      vmImage: $(vmImageName)
+      vmImage: ubuntu-latest
     strategy:
       runOnce:
         deploy:
@@ -63,7 +63,7 @@ stages:
             displayName: 'Azure Functions App Deploy: RideshareCSTripArchiver'
             inputs:
               azureSubscription: 'rideshare'
-              appType: 'functionApp'
               appName: 'RideshareCSTripArchiver'
+              appType: 'functionApp'
               package: '$(Pipeline.Workspace)/drop/NodeFunctionApp.zip'
               deploymentMethod: 'auto'
