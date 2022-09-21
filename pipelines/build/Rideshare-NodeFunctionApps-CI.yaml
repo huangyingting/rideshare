@@ -63,7 +63,7 @@ stages:
             displayName: 'Azure Functions App Deploy: RideshareCSTripArchiver'
             inputs:
               azureSubscription: 'YTHUANG(Isolated) (b99b5b7c-8c21-4203-863a-84cce54de7c0)'
-              appType: functionApp 
+              appType: 'functionApp'
               appName: 'RideshareCSTripArchiver'
               package: '$(Pipeline.Workspace)/drop/NodeFunctionApp.zip'
               deploymentMethod: 'auto'
