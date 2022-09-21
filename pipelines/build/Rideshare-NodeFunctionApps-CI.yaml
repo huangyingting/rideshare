@@ -64,6 +64,6 @@ stages:
             displayName: 'Azure Functions App Deploy: my-function-app-name'
             inputs:
               azureSubscription: '$(azureSubscription)'
-             appType: functionAppLinux 
-             appName: $(functionAppName)
-             package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              appType: functionAppLinux 
+              appName: $(functionAppName)
+              package: '$(Pipeline.Workspace)/drop/NodeFunctionApp.zip'
