@@ -74,25 +74,25 @@ stages:
               azureSubscription: rideshare
               appName: RideshareCSDrivers
               appType: functionApp
-              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Drivers'
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Drivers.zip'
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy: RideshareCSTrips'            
             inputs:
               azureSubscription: rideshare
               appName: RideshareCSTrips
               appType: functionApp
-              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Trips'
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Trips.zip'
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy: RideshareCSOrchestrators'            
             inputs:
               azureSubscription: rideshare
               appName: RideshareCSOrchestrators
               appType: functionApp
-              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Orchestrators'
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Orchestrators.zip'
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy: RideshareCSPassengers'            
             inputs:
               azureSubscription: rideshare
               appName: RideshareCSPassengers
               appType: functionApp
-              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Passengers'
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Passengers.zip'
