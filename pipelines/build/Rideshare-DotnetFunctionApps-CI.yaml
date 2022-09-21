@@ -15,46 +15,84 @@ variables:
     !**/*Test*.csproj
   testProjects: '**/*Test*/*.csproj'
   buildConfiguration: 'Release'
-pool:
-  vmImage: ubuntu-latest
-steps:
-  - task: DotNetCoreCLI@2
-    displayName: Restore
-    inputs:
-      command: restore
 
-      projects: '$(restoreBuildProjects)'
-
-  - task: DotNetCoreCLI@2
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
     displayName: Build
-    inputs:
-      projects: '$(restoreBuildProjects)'
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Restore
+        inputs:
+          command: restore
+          projects: '$(restoreBuildProjects)'
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+          projects: '$(restoreBuildProjects)'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: Test
+        inputs:
+          command: test
+          projects: '$(testProjects)'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: Publish
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: '$(restoreBuildProjects)'
+          arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+          zipAfterPublish: True
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact'
+        inputs:
+          PathtoPublish: '$(build.artifactstagingdirectory)'
 
-      arguments: '--configuration $(buildConfiguration)'
-
-  - task: DotNetCoreCLI@2
-    displayName: Test
-    inputs:
-      command: test
-
-      projects: '$(testProjects)'
-
-      arguments: '--configuration $(buildConfiguration)'
-
-  - task: DotNetCoreCLI@2
-    displayName: Publish
-    inputs:
-      command: publish
-
-      publishWebProjects: false
-
-      projects: '$(restoreBuildProjects)'
-
-      arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
-
-      zipAfterPublish: True
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact'
-    inputs:
-      PathtoPublish: '$(build.artifactstagingdirectory)'
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: RideShare
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureFunctionApp@1
+            displayName: 'Azure Functions App Deploy: RideshareCSDrivers'            
+            inputs:
+              azureSubscription: rideshare
+              appName: RideshareCSDrivers
+              appType: functionApp
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Drivers'
+          - task: AzureFunctionApp@1
+            displayName: 'Azure Functions App Deploy: RideshareCSTrips'            
+            inputs:
+              azureSubscription: rideshare
+              appName: RideshareCSTrips
+              appType: functionApp
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Trips'
+          - task: AzureFunctionApp@1
+            displayName: 'Azure Functions App Deploy: RideshareCSOrchestrators'            
+            inputs:
+              azureSubscription: rideshare
+              appName: RideshareCSOrchestrators
+              appType: functionApp
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Orchestrators'
+          - task: AzureFunctionApp@1
+            displayName: 'Azure Functions App Deploy: RideshareCSPassengers'            
+            inputs:
+              azureSubscription: rideshare
+              appName: RideshareCSPassengers
+              appType: functionApp
+              package: '$(Pipeline.Workspace)/drop/ServerlessMicroservices.FunctionApp.Passengers'
