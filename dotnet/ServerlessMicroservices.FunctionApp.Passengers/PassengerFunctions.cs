@@ -25,8 +25,8 @@ namespace ServerlessMicroservices.FunctionApp.Passengers
                 await Utilities.ValidateToken(req);
                 var passengers = ServiceFactory.GetUserService();
                 var (users, error) = await passengers.GetUsers();
-                if (!string.IsNullOrWhiteSpace(error))
-                    throw new Exception(error);
+                if (error != null)
+                    throw new Exception(error.Message);
 
                 return (ActionResult)new OkObjectResult(users.ToList());
             }
@@ -53,8 +53,8 @@ namespace ServerlessMicroservices.FunctionApp.Passengers
                 await Utilities.ValidateToken(req);
                 var passengers = ServiceFactory.GetUserService();
                 var (passenger, error) = await passengers.GetUserById(userid);
-                if (!string.IsNullOrWhiteSpace(error))
-                    throw new Exception(error);
+                if (error != null)
+                    throw new Exception(error.Message);
 
                 return (ActionResult)new OkObjectResult(passenger);
             }
