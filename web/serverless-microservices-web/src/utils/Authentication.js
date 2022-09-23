@@ -54,7 +54,6 @@ function setAccount(account) {
 }
 
 function selectAccount() {
-  console.log("selectAccount")
   const currentAccounts = myMSALObj.getAllAccounts();
   if (currentAccounts.length < 1) {
     return;
@@ -132,7 +131,7 @@ export function getAccessToken(request) {
       if (!response.accessToken || response.accessToken === "") {
         throw new InteractionRequiredAuthError;
       }
-      return response;
+      return response.accessToken;
     })
     .catch(error => {
       console.log("Silent token acquisition fails. Acquiring token using popup. \n", error);
@@ -140,7 +139,7 @@ export function getAccessToken(request) {
         return myMSALObj.acquireTokenPopup(tokenRequest)
           .then(response => {
             console.log(response);
-            return response;
+            return response.accessToken;
           }).catch(error => {
             console.log(error);
           });
