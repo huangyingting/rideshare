@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { Authentication } from '@/utils/Authentication'
-const auth = new Authentication()
+import { getAccessToken } from '@/utils/Authentication'
 
 const validStatuses = [200, 201, 202, 203, 204, 300, 301, 302, 303, 304]
 
@@ -86,7 +85,7 @@ export function qs (params) {
  * Helper for POST-ing with required headers.
  */
 export function post (uri, data, apiKey) {
-  return auth.getAccessToken().then(token => {
+  return getAccessToken().then(token => {
     return axios.post(uri, data, {
       headers: getHeaders(token, apiKey),
       withCredentials: false
@@ -98,7 +97,7 @@ export function post (uri, data, apiKey) {
  * Helper for PUT-ing with required headers.
  */
 export function put (uri, data, apiKey) {
-  return auth.getAccessToken().then(token => {
+  return getAccessToken().then(token => {
     return axios.put(uri, data, {
       headers: getHeaders(token, apiKey),
       withCredentials: false
@@ -110,7 +109,7 @@ export function put (uri, data, apiKey) {
  * Helper for DELETE-ing with required headers.
  */
 export function remove (uri, apiKey) {
-  return auth.getAccessToken().then(token => {
+  return getAccessToken().then(token => {
     return axios.delete(uri, {
       headers: getHeaders(token, apiKey),
       withCredentials: false
@@ -125,7 +124,7 @@ export function get (uri, data = {}, apiKey, customHeader) {
   if (Object.keys(data).length > 0) {
     uri = `${uri}?${qs(data)}`
   }
-  return auth.getAccessToken().then(token => {
+  return getAccessToken().then(token => {
     return axios.get(uri, {
       headers: getHeaders(token, apiKey, customHeader),
       withCredentials: false

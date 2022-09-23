@@ -37,9 +37,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { Authentication } from '@/utils/Authentication';
-const auth = new Authentication();
-const { login, logout, getUser, getAccessToken, authenticated } = auth;
+import { signIn, signOut, getUser, getAccessToken, authenticated } from '@/utils/Authentication';
 const {
   mapGetters: commonGetters,
   mapActions: commonActions
@@ -49,7 +47,6 @@ export default {
   name: 'App',
   data() {
     return {
-      auth,
       authenticated
     };
   },
@@ -59,7 +56,7 @@ export default {
   methods: {
     ...commonActions(['setUser']),
     login() {
-      auth.login().then(
+      signIn().then(
         user => {
           if (user) {
             this.setUser(user);
@@ -74,7 +71,7 @@ export default {
     },
     logout() {
       if (confirm('Are you sure you wish to log out?')) {
-        auth.logout().then(() => {
+        signOut().then(() => {
           this.setUser(null);
           this.$router.push('/');
         });
@@ -82,7 +79,7 @@ export default {
     }
   },
   mounted() {
-    let user = auth.getUser();
+    let user = getUser();
     if (user) {
       this.setUser(user);
     } else {

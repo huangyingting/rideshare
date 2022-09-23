@@ -28,9 +28,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { Authentication } from '@/utils/Authentication';
-const auth = new Authentication();
-const { login, logout, getUser, getAccessToken, authenticated } = auth;
+import { signIn, signOut, getUser, getAccessToken, authenticated } from '@/utils/Authentication';
 const { mapActions: commonActions } = createNamespacedHelpers('common');
 
 export default {
@@ -40,7 +38,7 @@ export default {
   methods: {
     ...commonActions(['setUser']),
     login() {
-      auth.login().then(
+      signIn().then(
         user => {
           if (user) {
             this.setUser(user);

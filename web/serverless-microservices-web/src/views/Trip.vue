@@ -219,13 +219,11 @@ const {
 } = createNamespacedHelpers("common");
 import { getDrivers, getDriver } from "@/api/drivers";
 import { getPassenger } from "@/api/passengers";
-import { Authentication } from "@/utils/Authentication";
+import { signIn } from "@/utils/Authentication";
 const {
   mapGetters: tripGetters,
   mapActions: tripActions
 } = createNamespacedHelpers("trips");
-
-const auth = new Authentication();
 
 export default {
   name: "Trip",
@@ -369,7 +367,7 @@ export default {
   },
   mounted() {
     // if (!this.user) {
-    //   auth.login().then(
+    //   signIn().then(
     //     user => {
     //       if (user) {
     //         this.setUser(user);
