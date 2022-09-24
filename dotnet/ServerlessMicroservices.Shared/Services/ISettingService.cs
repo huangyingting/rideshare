@@ -24,7 +24,7 @@
         int GetTripMonitorMaxIterations();
 
         // App Insights
-        string GetInsightsInstrumentationKey();
+        string GetApplicationInsightsConnectionString();
 
         // Cosmos
         string GetDocDbEndpointUri();
@@ -51,12 +51,12 @@
         string GetTripExternalizationsEventGridTopicUrl();
         string GetTripExternalizationsEventGridTopicApiKey();
 
-        // B2C settings
+        // B2C Settings
         string GetAuthorityUrl();
         string GetApiApplicationId();
         string GetApiScopeName();
         
-        // graph settings
+        // Graph API Settings
         string GetGraphTenantId();
         string GetGraphClientId();
         string GetGraphClientSecret();

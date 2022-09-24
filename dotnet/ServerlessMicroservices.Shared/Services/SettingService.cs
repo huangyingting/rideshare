@@ -29,7 +29,7 @@ namespace ServerlessMicroservices.Shared.Services
 
         // Insights Keys - this for the settings. The Functions App needs it also in APPINSIGHTS_INSTRUMENTATIONKEY
         // https://github.com/Azure/Azure-Functions/wiki/App-Insights
-        private const string InsightsInstrumentationKey = "InsightsInstrumentationKey";
+        private const string ApplicationInsightsConnectionString = "ApplicationInsightsConnectionString";
 
         // Cosmos DB
         private const string DocDbEndpointUriKey = "DocDbEndpointUri";
@@ -170,9 +170,9 @@ namespace ServerlessMicroservices.Shared.Services
         }
 
         // App Insights
-        public string GetInsightsInstrumentationKey()
+        public string GetApplicationInsightsConnectionString()
         {
-            return GetEnvironmentVariable(InsightsInstrumentationKey);
+            return GetEnvironmentVariable(ApplicationInsightsConnectionString);
         }
 
         // Cosmos

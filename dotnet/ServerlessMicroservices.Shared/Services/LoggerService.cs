@@ -41,7 +41,7 @@ namespace ServerlessMicroservices.Shared.Services
             if (_appInsightsClient == null)
             {
                 var config = TelemetryConfiguration.CreateDefault();
-                config.ConnectionString = _settingService.GetInsightsInstrumentationKey();
+                config.ConnectionString = _settingService.GetApplicationInsightsConnectionString();
                 _appInsightsClient = new TelemetryClient(config);                   
             }
 

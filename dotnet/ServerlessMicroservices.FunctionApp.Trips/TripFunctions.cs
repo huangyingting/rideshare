@@ -111,14 +111,13 @@ namespace ServerlessMicroservices.FunctionApp.Trips
                 return (ActionResult)new OkObjectResult(await persistenceService.UpsertTrip(trip));
             }
             catch (Exception e)
-            {
+            {            
                 var error = $"CreateTrip failed: {e.Message}";
                 log.LogError(error);
                 if (error.Contains(Constants.SECURITY_VALITION_ERROR))
                     return new StatusCodeResult(401);
                 else
                     return new BadRequestObjectResult(error);
-                throw;
             }
         }
 
