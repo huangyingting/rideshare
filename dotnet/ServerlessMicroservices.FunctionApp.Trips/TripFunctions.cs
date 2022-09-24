@@ -118,6 +118,7 @@ namespace ServerlessMicroservices.FunctionApp.Trips
                     return new StatusCodeResult(401);
                 else
                     return new BadRequestObjectResult(error);
+                throw;
             }
         }
 
