@@ -117,9 +117,9 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                     // TODO: Persist to table storage if persist instances is activated
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -131,9 +131,9 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                 log.LogInformation($"Terminating trip monitor '{instanceId}'.");
                 await context.TerminateAsync(instanceId, "Via an API request");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
     }

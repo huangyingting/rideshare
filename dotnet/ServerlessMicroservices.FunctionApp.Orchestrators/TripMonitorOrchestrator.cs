@@ -35,7 +35,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                     throw new Exception($"Trip with code {code} has no driver!");
 
                 if (trip.MonitorIterations == 0)
-                    await context.CallActivityAsync<TripItem>("A_TO_StartTrip", trip);
+                    await context.CallActivityAsync("A_TO_StartTrip", trip);
 
                 // Retrieve time settings
                 var settings = await context.CallActivityAsync<TripTimeSettings>("A_TO_RetrieveSettings", code);
@@ -57,10 +57,10 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                         throw new Exception($"The trip did not complete in {settings.MaxIterations * settings.IntervalInSeconds} seconds!!");
 
                     // Recycle the driver back in the available pool
-                    await context.CallActivityAsync<TripItem>("A_TO_RecycleTripDriver", trip);
+                    await context.CallActivityAsync("A_TO_RecycleTripDriver", trip);
 
                     // Externalize the trip
-                    await context.CallActivityAsync<TripItem>("A_TO_CompleteTrip", trip);
+                    await context.CallActivityAsync("A_TO_CompleteTrip", trip);
                 }
             }
             catch (Exception e)
@@ -71,7 +71,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                 if (trip != null)
                 {
                     trip.Error = e.Message;
-                    await context.CallActivityAsync<string>("A_TO_Cleanup", trip);
+                    await context.CallActivityAsync("A_TO_Cleanup", trip);
                 }
 
                 return new
@@ -115,7 +115,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
         }
 
         [FunctionName("A_TO_RetrieveSettings")]
-        public static async Task<TripTimeSettings> RetrieveSettings([ActivityTrigger] string ignore,
+        public static TripTimeSettings RetrieveSettings([ActivityTrigger] string ignore,
             ILogger log)
         {
             log.LogInformation($"RetrieveSettings starting....");

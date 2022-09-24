@@ -24,6 +24,7 @@ namespace ServerlessMicroservices.Shared.Services
             try
             {
                 //TODO: Add PowerBI integration
+                await Task.Yield();
             }
             catch (Exception ex)
             {

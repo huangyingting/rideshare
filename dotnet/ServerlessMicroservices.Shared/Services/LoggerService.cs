@@ -1,4 +1,5 @@
 ﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using System;
 using System.Collections.Generic;
 
@@ -39,11 +40,9 @@ namespace ServerlessMicroservices.Shared.Services
         {
             if (_appInsightsClient == null)
             {
-                _appInsightsClient = new TelemetryClient();
-                string key = _settingService.GetInsightsInstrumentationKey();
-
-                // It is possible to create a Telemetry client without an iKey. But trying to set this property to null will throw a null argument exception
-                if (!string.IsNullOrEmpty(key)) _appInsightsClient.InstrumentationKey = key;
+                var config = TelemetryConfiguration.CreateDefault();
+                config.ConnectionString = _settingService.GetInsightsInstrumentationKey();
+                _appInsightsClient = new TelemetryClient(config);                   
             }
 
             return _appInsightsClient;

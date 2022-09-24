@@ -19,6 +19,7 @@ namespace ServerlessMicroservices.Shared.Services
      */
     public class TokenValidationService : ITokenValidationService
     {
+        public const string LOG_TAG = "TokenValidationService";
         const string AuthorizationHeaderName = "authorization";
         const string BearerScheme = "bearer";
         const string ScopeClainType = "scp";
@@ -105,7 +106,7 @@ namespace ServerlessMicroservices.Shared.Services
                 }
                 catch (Exception ex)
                 {
-                    //_loggerService.LogError("Token failed to validate: {0}", ex.Message);
+                    _loggerService.Log($"{LOG_TAG} - Token failed to validate - Error: {ex.Message}");
                 }
             }
 

@@ -109,7 +109,7 @@ namespace ServerlessMicroservices.Shared.Helpers
             catch (Exception ex)
             {
                 error = ex.Message;
-                throw ex;
+                throw;
             }
         }
 
@@ -155,7 +155,7 @@ namespace ServerlessMicroservices.Shared.Helpers
             catch (Exception ex)
             {
                 error = ex.Message;
-                throw ex;
+                throw;
             }
             finally
             {
@@ -218,7 +218,7 @@ namespace ServerlessMicroservices.Shared.Helpers
             catch (Exception ex)
             {
                 error = ex.Message;
-                throw ex;
+                throw;
             }
             finally
             {
@@ -280,7 +280,7 @@ namespace ServerlessMicroservices.Shared.Helpers
             catch (Exception ex)
             {
                 error = ex.Message;
-                throw ex;
+                throw;
             }
             finally
             {
@@ -332,7 +332,7 @@ namespace ServerlessMicroservices.Shared.Helpers
             catch (Exception ex)
             {
                 error = ex.Message;
-                throw ex;
+                throw;
             }
             finally
             {

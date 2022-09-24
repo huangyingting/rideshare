@@ -23,7 +23,8 @@ namespace ServerlessMicroservices.Shared.Services
 
         public async Task DriverChanged(DriverItem driver)
         {
-            //TODO: React to `Driver` changes 
+            //TODO: React to `Driver` changes
+            await Task.Yield();
         }
 
         public async Task TripCreated(TripItem trip, int activeTrips)
@@ -145,6 +146,7 @@ namespace ServerlessMicroservices.Shared.Services
         public async Task PassengerChanged(PassengerItem trip)
         {
             //TODO: React to `Passenger` changes 
+            await Task.Yield();
         }
     }
 }

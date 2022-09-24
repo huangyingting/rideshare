@@ -82,7 +82,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
                     log.LogInformation($"Caught an error from an activity: {e.Message}");
 
                 trip.Error = e.Message;
-                await context.CallActivityAsync<string>("A_TM_Cleanup", trip);
+                await context.CallActivityAsync("A_TM_Cleanup", trip);
 
                 return new
                 {
@@ -156,6 +156,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
             foreach (var driver in trip.AvailableDrivers)
             {
                 //TODO: Out of scope
+                await Task.Yield();
             }
         }
 
@@ -165,6 +166,7 @@ namespace ServerlessMicroservices.FunctionApp.Orchestrators
         {
             log.LogInformation($"NotifyPassenger starting....");
             //TODO: Out of scope
+            await Task.Yield();
         }
 
         // Out does does not work in Async methods!!!

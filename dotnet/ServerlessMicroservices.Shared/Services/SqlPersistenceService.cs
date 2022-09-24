@@ -219,7 +219,7 @@ namespace ServerlessMicroservices.Shared.Services
                         )
                         ";
                     _loggerService.Log($"{LOG_TAG} - UpsertTrip - SQL: {sql}");
-                    conn.Execute(sql, new
+                    await conn.ExecuteAsync(sql, new
                     {
                         startDate = trip.StartDate,
                         endDate = trip.EndDate,

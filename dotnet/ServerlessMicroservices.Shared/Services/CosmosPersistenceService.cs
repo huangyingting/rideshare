@@ -21,9 +21,6 @@ namespace ServerlessMicroservices.Shared.Services
         // Doc DB Collections
         private string _docDbDigitalMainCollectionName;
 
-        private static CosmosClient _docDbSingletonClient;
-
-
         private ISettingService _settingService;
         private ILoggerService _loggerService;
         private IChangeNotifierService _changeNotifierService;
@@ -135,8 +132,6 @@ namespace ServerlessMicroservices.Shared.Services
         public async Task<List<DriverItem>> RetrieveActiveDrivers(int max = Constants.MAX_RETRIEVE_DOCS)
         {
             var error = "";
-            double cost = 0;
-
             try
             {
                 if (string.IsNullOrEmpty(_docDbDigitalMainCollectionName))
@@ -434,7 +429,6 @@ namespace ServerlessMicroservices.Shared.Services
         public async Task<List<TripItem>> RetrieveActiveTrips(int max = Constants.MAX_RETRIEVE_DOCS)
         {
             var error = "";
-            double cost = 0;
 
             try
             {

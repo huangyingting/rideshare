@@ -235,7 +235,7 @@ namespace ServerlessMicroservices.FunctionApp.Trips
             {
                 var error = $"ProcessTripExternalizations2SignalR failed: {e.Message}";
                 log.LogError(error);
-                throw e;
+                throw;
             }
         }
 
@@ -272,7 +272,7 @@ namespace ServerlessMicroservices.FunctionApp.Trips
             {
                 var error = $"ProcessTripExternalizations2PowerBI failed: {e.Message}";
                 log.LogError(error);
-                throw e;
+                throw;
             }
         }
 

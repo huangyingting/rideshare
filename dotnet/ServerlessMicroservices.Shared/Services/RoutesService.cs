@@ -21,7 +21,7 @@ namespace ServerlessMicroservices.Shared.Services
         public async Task<List<TripLocation>> RetrieveRouteItems(TripLocation source, TripLocation destination)
         {
             //TODO: Add Bing API here
-
+            await Task.Yield();
             var routeLocations = new List<TripLocation>();
             var points = _rnd.Next(10);
             for (var i=0; i < points; i++)
